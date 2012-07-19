@@ -35,6 +35,8 @@
 #include <sys/sockio.h>
 #endif
 
+#include "udphelper.h"
+
 /* Support Solaris extended GIFCONF */
 #ifndef SIOCGLIFCONF
 # define SIOCGLIFCONF SIOCGIFCONF

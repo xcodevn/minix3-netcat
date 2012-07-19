@@ -384,7 +384,7 @@ const char *netcat_inet_ntop(int af, const void *src)
 int netcat_socket_new(nc_domain_t domain, nc_proto_t proto)
 {
   int sock, ret, sockdomain, socktype, sockopt;
-  struct linger fix_ling;
+  //struct linger fix_ling;
 
   if (domain == NETCAT_DOMAIN_IPV4)
     sockdomain = PF_INET;
@@ -407,13 +407,13 @@ int netcat_socket_new(nc_domain_t domain, nc_proto_t proto)
     return -1;
 
   /* don't leave the socket in a TIME_WAIT state if we close the connection */
-  fix_ling.l_onoff = 1;
-  fix_ling.l_linger = 0;
-  ret = setsockopt(sock, SOL_SOCKET, SO_LINGER, &fix_ling, sizeof(fix_ling));
-  if (ret < 0) {
-    close(sock);		/* anyway the socket was created */
-    return -2;
-  }
+  //fix_ling.l_onoff = 1;
+  //fix_ling.l_linger = 0;
+  //ret = setsockopt(sock, SOL_SOCKET, SO_LINGER, &fix_ling, sizeof(fix_ling));
+  //if (ret < 0) {
+  //  close(sock);		/* anyway the socket was created */
+  //  return -2;
+  //}
 
   /* fix the socket options */
   sockopt = 1;

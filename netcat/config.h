@@ -11,28 +11,28 @@
 
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
-#define ENABLE_NLS 1
+/* #undef ENABLE_NLS */
 
 /* Define to 1 if you have `alloca', as a function or macro. */
 #define HAVE_ALLOCA 1
 
 /* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
    */
-#define HAVE_ALLOCA_H 1
+/* #undef HAVE_ALLOCA_H */
 
 /* Define to 1 if you have the <argz.h> header file. */
-#define HAVE_ARGZ_H 1
+/* #undef HAVE_ARGZ_H */
 
 /* Define to 1 if you have the `asprintf' function. */
 #define HAVE_ASPRINTF 1
 
 /* Define if the GNU dcgettext() function is already present or preinstalled.
    */
-#define HAVE_DCGETTEXT 1
+/* #undef HAVE_DCGETTEXT */
 
 /* Define to 1 if you have the declaration of `feof_unlocked', and to 0 if you
    don't. */
-#define HAVE_DECL_FEOF_UNLOCKED 1
+#define HAVE_DECL_FEOF_UNLOCKED 0
 
 /* Define to 1 if you have the declaration of `fgets_unlocked', and to 0 if
    you don't. */
@@ -72,7 +72,7 @@
 #define HAVE_GETPAGESIZE 1
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
-#define HAVE_GETTEXT 1
+/* #undef HAVE_GETTEXT */
 
 /* Define to 1 if you have the `getuid' function. */
 #define HAVE_GETUID 1
@@ -136,13 +136,13 @@
 #define HAVE_MEMORY_H 1
 
 /* Define to 1 if you have the `mempcpy' function. */
-#define HAVE_MEMPCPY 1
+/* #undef HAVE_MEMPCPY */
 
 /* Define to 1 if you have a working `mmap' system call. */
-#define HAVE_MMAP 1
+/* #undef HAVE_MMAP */
 
 /* Define to 1 if you have the `munmap' function. */
-#define HAVE_MUNMAP 1
+/* #undef HAVE_MUNMAP */
 
 /* Define to 1 if you have the <nl_types.h> header file. */
 #define HAVE_NL_TYPES_H 1
@@ -206,7 +206,7 @@
 #define HAVE_STRTOUL 1
 
 /* Define to 1 if the system has the type `struct in_pktinfo'. */
-#define HAVE_STRUCT_IN_PKTINFO 1
+/* #undef HAVE_STRUCT_IN_PKTINFO */
 
 /* Define to 1 if `sa_len' is a member of `struct sockaddr'. */
 /* #undef HAVE_STRUCT_SOCKADDR_SA_LEN */
@@ -245,19 +245,19 @@
 #define HAVE_WINT_T 1
 
 /* Define to 1 if you have the `__argz_count' function. */
-#define HAVE___ARGZ_COUNT 1
+/* #undef HAVE___ARGZ_COUNT */
 
 /* Define to 1 if you have the `__argz_next' function. */
-#define HAVE___ARGZ_NEXT 1
+/* #undef HAVE___ARGZ_NEXT */
 
 /* Define to 1 if you have the `__argz_stringify' function. */
-#define HAVE___ARGZ_STRINGIFY 1
+/* #undef HAVE___ARGZ_STRINGIFY */
 
 /* Define to 1 if you have the `__fsetlocking' function. */
-#define HAVE___FSETLOCKING 1
+/* #undef HAVE___FSETLOCKING */
 
 /* Define as const if the declaration of iconv() needs const. */
-#define ICONV_CONST 
+#define ICONV_CONST const
 
 /* Define if integer division by zero raises signal SIGFPE. */
 #define INTDIV0_RAISES_SIGFPE 1
@@ -302,7 +302,7 @@
 #define STDC_HEADERS 1
 
 /* use the linux-style select(2) call */
-#define USE_LINUX_SELECT /**/
+/* #undef USE_LINUX_SELECT */
 
 /* misc old compat behaviours */
 /* #undef USE_OLD_COMPAT */

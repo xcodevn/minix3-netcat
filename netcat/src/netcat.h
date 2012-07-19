@@ -1,3 +1,4 @@
+#include "wrapper.h"
 /*
  * netcat.h -- main header project file
  * Part of the GNU netcat project
