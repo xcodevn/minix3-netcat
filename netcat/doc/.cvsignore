@@ -1,0 +1,10 @@
+Makefile
+Makefile.in
+texinfo.tex
+texi2pod.pl
+version.texi
+mdate-sh
+stamp-vti
+netcat.1
+netcat.info
+netcat.pod

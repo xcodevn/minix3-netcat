@@ -1,0 +1,36 @@
+# $Id: Makefile.cvs,v 1.7 2002/06/08 17:34:51 themnemonic Exp $
+
+default: all
+
+dist:
+	@echo "Preparing release package..."
+	@aclocal -I m4
+	@autoheader
+	@automake --ignore-deps --add-missing --copy
+	@autoconf
+	@if [ -f config.cache ]; then \
+		rm -f config.cache; \
+	fi
+	@#LIST=`find ./po -name "*.po"`; \
+	@#@for i in $$LIST; do \
+	@# file2=`echo $$i | sed -e "s#\.po#\.gmo#"`; \
+	@# msgfmt -o $$file2 $$i; \
+	@#done 
+	@#@rm -f Makefile.cvs
+	@echo "Reminder: Update release dates and tag cvs"
+
+all:
+	@aclocal -I m4
+	@autoheader
+	@automake --add-missing --copy
+	@autoconf
+	@if [ -f config.cache ]; then \
+		rm -f config.cache; \
+	fi
+
+clean:
+	make maintainer-clean
+	rm -rf configure depcomp install-sh missing mkinstalldirs aclocal.m4
+	rm -rf config.guess config.h.in config.log config.status config.sub
+	rm -rf autom4te*.cache doc/texinfo.tex doc/mdate-sh
+	find . -name Makefile.in -exec rm -f '{}' \;
