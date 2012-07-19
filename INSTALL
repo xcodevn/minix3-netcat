@@ -1,2 +1,11 @@
-----
-To install netcat , you need to install automake
+You need to install automake (pkgin install automake) to configure netcat source code
+
+Commands to build and install:
+$ git clone []
+$ cd minix3-netcat/netcat/src
+$ make
+$ make install
+
+Have fun :-)
+
+P/S: this patch is a dummy patch of netcat on minix3, improvement will come in the future
