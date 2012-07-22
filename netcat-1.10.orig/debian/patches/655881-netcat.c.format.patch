@@ -1,0 +1,11 @@
+--- a/netcat.c	2012-06-12 22:53:42.000000000 +1000
++++ b/netcat.c	2012-06-12 22:58:55.641718669 +1000
+@@ -216,7 +216,7 @@ void holler (str, p1, p2, p3, p4, p5, p6
+       if (h_errno > 4)		/* oh no you don't, either */
+ 	fprintf (stderr, "preposterous h_errno: %d", h_errno);
+       else
+-	fprintf (stderr, h_errs[h_errno]);	/* handle it here */
++	fprintf (stderr,"%s", h_errs[h_errno]);	/* handle it here */
+       h_errno = 0;				/* and reset for next call */
+     }
+ #endif

@@ -1,0 +1,11 @@
+--- a/Makefile	2012-06-12 22:44:03.000000000 +1000
++++ b/Makefile	2012-06-12 22:45:37.432878879 +1000
+@@ -15,7 +15,7 @@ XLIBS =		# xtra libs if necessary?
+ # -Bstatic for sunos,  -static for gcc, etc.  You want this, trust me.
+ STATIC =
+ CC = gcc $(CFLAGS)
+-LD = $(CC)	# linker; defaults to unstripped executables
++LD = $(CC) $(LDFLAGS)	# linker; defaults to unstripped executables
+ o = o		# object extension
+ 
+ ALL = nc

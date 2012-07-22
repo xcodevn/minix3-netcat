@@ -1,9 +1,0 @@
-Commands to build and install:
-$ git clone git://github.com/xcodevn/minix3-netcat.git
-$ cd minix3-netcat/netcat/
-$ ./configure
-$ make
-$ make install
-$ ln -s `which netcat` /bin/nc
-
-Have fun :-)

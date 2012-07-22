@@ -1,0 +1,97 @@
+Index: netcat-1.10.orig/Makefile
+===================================================================
+--- netcat-1.10.orig.orig/Makefile	2012-07-22 12:29:46.468048542 +0700
++++ netcat-1.10.orig/Makefile	2012-07-22 12:29:58.385030599 +0700
+@@ -69,6 +69,9 @@
+ linux:
+ 	make -e $(ALL) $(MFLAGS) XFLAGS='-DLINUX' STATIC=-static
+ 
++minix:
++	make -e $(ALL) $(MFLAGS) XFLAGS='-DMINIX -DGAPING_SECURITY_HOLE' STATIC=-static CC=cc
++
+ # irix 5.2, dunno 'bout earlier versions.  If STATIC='-non_shared' doesn't
+ # work for you, null it out and yell at SGI for their STUPID default
+ # of apparently not installing /usr/lib/nonshared/*.  Sheesh.
+Index: netcat-1.10.orig/netcat.c
+===================================================================
+--- netcat-1.10.orig.orig/netcat.c	2012-07-22 12:29:52.948029802 +0700
++++ netcat-1.10.orig/netcat.c	2012-07-22 12:30:05.296031656 +0700
+@@ -72,8 +72,10 @@
+ #include <setjmp.h>		/* jmp_buf et al */
+ #include <sys/socket.h>		/* basics, SO_ and AF_ defs, sockaddr, ... */
+ #include <netinet/in.h>		/* sockaddr_in, htons, in_addr */
++#ifndef MINIX
+ #include <netinet/in_systm.h>	/* misc crud that netinet/ip.h references */
+ #include <netinet/ip.h>		/* IPOPT_LSRR, header stuff */
++#endif  /* !MINIX */
+ #include <netdb.h>		/* hostent, gethostby*, getservby* */
+ #include <arpa/inet.h>		/* inet_ntoa */
+ #include <stdio.h>
+@@ -814,14 +816,14 @@
+   arm_timer (1, o_wait);
+ #ifdef POSIX_SETJMP
+   if (sigsetjmp (jbuf,1) == 0) {
+-    rr = connect (nnetfd, (SA *)remend, sizeof (SA));
++    rr = connect (nnetfd, (SA *)remend, sizeof (SAI));
+   } else {				/* setjmp: connect failed... */
+     rr = -1;
+     errno = ETIMEDOUT;			/* fake it */
+   }
+ #else
+   if (setjmp (jbuf) == 0) {
+-    rr = connect (nnetfd, (SA *)remend, sizeof (SA));
++    rr = connect (nnetfd, (SA *)remend, sizeof (SAI));
+   } else {				/* setjmp: connect failed... */
+     rr = -1;
+     errno = ETIMEDOUT;			/* fake it */
+@@ -903,8 +905,22 @@
+ #else
+     if (setjmp (jbuf) == 0) {	/* do timeout for initial connect */
+ #endif
++#ifndef MINIX
+       rr = recvfrom		/* and here we block... */
+ 	(nnetfd, bigbuf_net, BIGSIZ, MSG_PEEK, (SA *) remend, &x);
++#else /* Minix */
++      rr = recvfrom     /* and here we block... */
++      (nnetfd, bigbuf_net, BIGSIZ, 0, (SA *) remend, &x); /* UDP flags hasn't supported on Minix3 yet */
++      wrote_out += rr;                                /* Of course, need to increase *wrote_out* global variable */
++      char * ptx = (char *)bigbuf_net;
++      while (rr > 0) {
++      int rl;
++          rl = write(1, ptx, rr);                 /* We get bytes from network and write it on stdout */
++          if (rl < 0) perror("error");
++          ptx += rl;
++          rr -= rl;
++      }
++#endif /* Minix */
+ Debug (("dolisten/recvfrom ding, rr = %d, netbuf %s ", rr, bigbuf_net))
+     } else
+       goto dol_tmo;		/* timeout */
+@@ -920,7 +936,7 @@
+    different port on the other end won't show up and will cause ICMP errors.
+    I guess that's what they meant by "connect".
+    Let's try to remember what the "U" is *really* for, eh? */
+-    rr = connect (nnetfd, (SA *)remend, sizeof (SA));
++    rr = connect (nnetfd, (SA *)remend, sizeof (SAI));
+     goto whoisit;
+   } /* o_udpmode */
+ 
+@@ -985,7 +1001,7 @@
+   x = sizeof (SA);
+   rr = getsockname (nnetfd, (SA *) lclend, &x);
+   if (rr < 0)
+-    holler ("post-rcv getsockname failed");
++    fprintf (stderr, "post-rcv getsockname failed\n");
+   strcpy (cp, inet_ntoa (lclend->sin_addr));
+ 
+ /* now check out who it is.  We don't care about mismatched DNS names here,
+@@ -1794,8 +1810,7 @@
+ helpme()
+ {
+   o_verbose = 1;
+-  holler ("[v" DEBIAN_VERSION "]\n\
+-connect to somewhere:	nc [-options] hostname port[s] [ports] ... \n\
++  holler ("usage:   nc [-options] hostname port[s] [ports] ... \n\
+ listen for inbound:	nc -l -p port [-options] [hostname] [port]\n\
+ options:");
+ /* sigh, this necessarily gets messy.  And the trailing \ characters may be
