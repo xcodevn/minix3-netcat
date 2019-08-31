@@ -666,9 +666,11 @@ newskt:
   if (nnetfd == 0)		/* if stdin was closed this might *be* 0, */
     goto newskt;		/* so grab another.  See text for why... */
   x = 1;
+#ifndef MINIX /* Minix 3.1.2a do not support this mode. */
   rr = setsockopt (nnetfd, SOL_SOCKET, SO_REUSEADDR, &x, sizeof (x));
   if (rr == -1)
     holler ("nnetfd reuseaddr failed");		/* ??? */
+#endif
 #ifdef SO_BROADCAST
   if (o_allowbroad) {
     rr = setsockopt (nnetfd, SOL_SOCKET, SO_BROADCAST, &x, sizeof (x));
@@ -721,7 +723,7 @@ newskt:
     x = (int) lp;
 /* try a few times for the local bind, a la ftp-data-port... */
     for (y = 4; y > 0; y--) {
-      rr = bind (nnetfd, (SA *)lclend, sizeof (SA));
+      rr = bind (nnetfd, (struct sockaddr *)lclend, sizeof (struct sockaddr_in));
       if (rr == 0)
 	break;
       if (errno != EADDRINUSE)

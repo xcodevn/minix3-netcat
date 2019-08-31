@@ -1,5 +1,9 @@
 # Makefile for netcat
-PROGS=netcat
+
+CC=gcc
+CFLAGS+= -DMINIX -static -Os
+
+PROGS=nc
 SRCS=netcat.c
 
 BINDIR=/usr/bin
@@ -7,6 +11,9 @@ BINDIR=/usr/bin
 MAN=nc.1 netcat.1
 SYMLINKS+= $(BINDIR)/$(PROGS) $(BINDIR)/nc
 
-CPPFLAGS+= -DMINIX -DGAPING_SECURITY_HOLE -static
 
-.include <bsd.prog.mk>
+$(PROGS): $(SRCS)
+	$(CC) $(CFLAGS) $(SRCS) -o $(PROGS)
+
+install: $(PROGS)
+	install -c $(BINDIR)/$(PROGS)
